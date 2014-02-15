@@ -1,0 +1,36 @@
+{
+  "name": "gulp-min-map",
+  "version": "0.0.1",
+  "description": "CSS/JS minification mapping using embbeded HTML attributes",
+  "main": "index.js",
+  "dependencies": {
+    "event-stream": "latest",
+    "cheerio": "latest"
+  },
+  "devDependencies": {
+    "should": "latest",
+    "mocha": "latest",
+    "gulp-util": "latest"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jrnewell/gulp-min-map.git"
+  },
+  "keywords": [
+    "gulpplugin",
+    "min",
+    "minification"
+  ],
+  "author": "James Newell <james.newell@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jrnewell/gulp-min-map/issues"
+  },
+  "engines": {
+    "node": ">=0.8",
+    "npm": ">=1.2.10"
+  }
+}
