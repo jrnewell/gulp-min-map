@@ -1,5 +1,6 @@
 var es = require('event-stream');
 var cheerio = require('cheerio');
+var _ = require('underscore');
 var path = require('path');
 var url = require('url');
 
@@ -10,7 +11,7 @@ module.exports = function(type, map, options) {
 
   var isLocal = function(srcPath) {
     var srcUrl = url.parse(srcPath, false, true);
-    return (typeof srcUrl.hostname === 'undefined' || srcUrl.hostname === null);
+    return !(srcUrl.hostname);
   };
 
   var isMin = function(srcPath) {
@@ -39,10 +40,20 @@ module.exports = function(type, map, options) {
     var startStr = str.substring(0, idx);
     var endStr = str.substring(idx + (text.length));
     return (startStr + replaceText + endStr);
-  }
+  };
 
-  var addMinFileToMap = function(replacedMinFile, elem, file, srcFile, minFile) {
-    var minFile = replaceLastInstance(srcFile, path.basename(srcFile), path.basename(minFile));
+  var resolveMinFile = function(file, srcFile, minFile) {
+    // are we an "absoulte path"?
+    if (minFile.indexOf(path.sep) == 0) {
+      return minFile;
+    }
+
+    // otherwise, just subsitute the minfile for the src file
+    return replaceLastInstance(srcFile, path.basename(srcFile), minFile);
+  };
+
+  var addMinFileToMap = function(map, replacedMinFile, elem, file, srcFile, minFile, srcSelector) {
+    var minFile = resolveMinFile(file, srcFile, minFile);
     var normMinFile = resolvePath(file, minFile).replace(file.base, "");
     var fullSrcFile = resolvePath(file, srcFile);
     var srcArray = map[normMinFile] || [];
@@ -58,7 +69,7 @@ module.exports = function(type, map, options) {
       if (!replacedMinFile[normMinFile]) {
         console.log("modifying DOM element");
         elem.removeAttr('data-min');
-        elem.attr('src', minFile);
+        elem.attr(srcSelector, path.normalize(minFile));
         replacedMinFile[normMinFile] = true;
       }
       else {
@@ -68,12 +79,12 @@ module.exports = function(type, map, options) {
     }
   };
 
-  var minMapFunc = function(replacedMinFile, elem, file, srcFile, minFile) {
+  var minMapFunc = function(map, replacedMinFile, elem, file, srcFile, minFile, srcSelector) {
     console.log("srcFile: " + srcFile + ", minFile: " + minFile + ", isLocal: " + isLocal(srcFile));
 
     if (srcFile && minFile) {
       console.log("minMap1: " + srcFile + ", " + minFile);
-      addMinFileToMap(replacedMinFile, elem, file, srcFile, minFile);
+      addMinFileToMap(map, replacedMinFile, elem, file, srcFile, minFile, srcSelector);
     }
     else if (opt.autoMin && !(elem.attr('data-no-min')) && srcFile && isLocal(srcFile) && !isMin(srcFile)) {
       if (opt.defaultMinFile) {
@@ -84,7 +95,7 @@ module.exports = function(type, map, options) {
         minFile = replaceLastInstance(srcFile, baseName, (baseName + ".min"));
       }
       console.log("minMap2: " + baseName + ", " + srcFile + ", " + minFile);
-      addMinFileToMap(replacedMinFile, elem, file, srcFile, minFile);
+      addMinFileToMap(map, replacedMinFile, elem, file, srcFile, minFile, srcSelector);
     }
   };
 
@@ -93,25 +104,33 @@ module.exports = function(type, map, options) {
     var replacedMinFile = {};
     var $ = cheerio.load(file.contents);
 
-    var handleFunc = function(elemSelector, srcSelector) {
+    var handleFunc = function(type, elemSelector, srcSelector) {
       $(elemSelector).each(function(idx, elem) {
         var $elem = $(elem);
         var srcFile = $elem.attr(srcSelector);
         var minFile = $elem.attr('data-min');
 
-        minMapFunc(replacedMinFile, $elem, file, srcFile, minFile);
+        if (!map[type]) map[type] = {};
+        minMapFunc(map[type], replacedMinFile, $elem, file, srcFile, minFile, srcSelector);
       });
     };
 
     var util = require('util');
     console.log("type = " + type + ", file.cwd: " + file.cwd + ", file.base: " + file.base + ", file.path: " + file.path);
 
-    if (type === 'js') {
-      handleFunc('script', 'src');
-    }
-    else if (type === 'css') {
-      handleFunc('link[rel=stylesheet]', 'href');
-    }
+    var typeArray;
+    if (_.isArray(type)) typeArray = type;
+    else if (_.isString(type)) typeArray = [type];
+    else return callback(new Error("invalid type"));
+
+    typeArray.forEach(function(type) {
+      if (type === 'js') {
+        handleFunc(type, 'script', 'src');
+      }
+      else if (type === 'css') {
+        handleFunc(type, 'link[rel=stylesheet]', 'href');
+      }
+    });
 
     if (opt.updateHTML) file.contents = new Buffer($.html());
     console.log('map: ' + util.inspect(map))
