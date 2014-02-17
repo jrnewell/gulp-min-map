@@ -6,7 +6,7 @@ var url = require('url');
 
 /*
   optional arguments:
-    autoMin (bool)          - minimize files with a data-min attribute [default=true]
+    autoMin (bool)          - minimize files without a data-min attribute [default=true]
     defaultMinFile (string) - if autoMin is true, use this min file for all files without a data-min attribute.
                               if defaultMinFile is null, use the src file name instead [default=null]
     updateHTML (bool)       - rewrite HTML files to point at the min files [default=true]
