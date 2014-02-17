@@ -92,13 +92,13 @@ It will also build a mapping object that you can use for depedent gulp tasks
 
 ```json
 {
-  'css': {
-    'css/bootstrap.min.css':
-      [ '/home/user/gulp-min-map/test/fixtures/css/bootstrap.css',
-        '/home/user/gulp-min-map/test/fixtures/css/bootstrap-theme.css',
-        '/home/user/gulp-min-map/test/fixtures/css/font-awesome.css' ],
-     'css/home.min.css': [ '/home/user/gulp-min-map/test/fixtures/css/home.css' ],
-     'css/admin/admin.min.css': [ '/home/user/gulp-min-map/test/fixtures/css/admin/admin.css' ]
+  "css": {
+    "css/bootstrap.min.css":
+      [ "/home/user/gulp-min-map/test/fixtures/css/bootstrap.css",
+        "/home/user/gulp-min-map/test/fixtures/css/bootstrap-theme.css",
+        "/home/user/gulp-min-map/test/fixtures/css/font-awesome.css" ],
+     "css/home.min.css": [ "/home/user/gulp-min-map/test/fixtures/css/home.css" ],
+     "css/admin/admin.min.css": [ "/home/user/gulp-min-map/test/fixtures/css/admin/admin.css" ]
   }
 }
 ```
