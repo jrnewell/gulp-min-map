@@ -107,19 +107,19 @@ It will also build a mapping object that you can use for depedent gulp tasks
 
 ### autoMin
 Type: bool
-Default: true
+  Default: true
 
 Minimize files without a data-min attribute.  Otherwise, leave as is.
 
 ### defaultMinFile
 Type: string
-Default: null
+  Default: null
 
 If autoMin is true, use this filename for all min files without a data-min attribute (e.g. 'app.min.js').  If defaultMinFile is null, the plugin will use the src file name instead.
 
 ### updateHTML
 Type: bool
-Default: true
+  Default: true
 
 Rewrite HTML files so the src uses the min files.  Otherwise, the HTML file is left as is.
 
