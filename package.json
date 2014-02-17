@@ -1,7 +1,7 @@
 {
   "name": "gulp-min-map",
   "version": "0.0.1",
-  "description": "CSS/JS minification mapping using embbeded HTML attributes",
+  "description": "CSS/JS minification mapping using embbeded HTML5 data attributes",
   "main": "index.js",
   "dependencies": {
     "event-stream": "latest",
