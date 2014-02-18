@@ -105,23 +105,35 @@ It will also build a mapping object that you can use for depedent gulp tasks
 
 ## Options
 
+### minAttr
+Type: string<br/>
+Default: "data-min"
+
+The HTML element attribute that specifies the min file name to associate this element with.
+
+### noMinAttr
+Type: string<br/>
+Default: "data-no-min"
+
+The HTML element attribute that specifies to exclude this element from min file processing when automMin is true.
+
 ### autoMin
-Type: bool
-  Default: true
+Type: bool<br/>
+Default: true
 
 Minimize files without a data-min attribute.  Otherwise, leave as is.
 
 ### defaultMinFile
-Type: string
-  Default: null
+Type: string<br/>
+Default: null
 
-If autoMin is true, use this filename for all min files without a data-min attribute (e.g. 'app.min.js').  If defaultMinFile is null, the plugin will use the src file name instead.
+If autoMin is true, use this filename (e.g. 'app.min.js') for all elements without a data-min attribute.  If defaultMinFile is null, the plugin will use the src file name instead (i.e. 'myfile.js' -> 'myfile.min.js').
 
 ### updateHTML
-Type: bool
-  Default: true
+Type: bool<br/>
+Default: true
 
-Rewrite HTML files so the src uses the min files.  Otherwise, the HTML file is left as is.
+Rewrite the input HTML files so the src uses the min files.  Otherwise, the HTML file is left as is.
 
 ## License
 
