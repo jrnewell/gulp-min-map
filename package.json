@@ -1,22 +1,12 @@
 {
   "name": "gulp-min-map",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "gulp plugin for CSS/JS minification mapping using HTML5 data attributes",
   "main": "index.js",
   "dependencies": {
-    "event-stream": "latest",
-    "cheerio": "latest",
-    "underscore": "latest"
-  },
-  "devDependencies": {
-    "should": "latest",
-    "mocha": "latest",
-    "gulp": "latest",
-    "gulp-util": "latest",
-    "gulp-clean": "latest"
-  },
-  "scripts": {
-    "test": "mocha"
+    "event-stream": "3.1.x",
+    "cheerio": "0.17.x",
+    "lodash": "latest"
   },
   "repository": {
     "type": "git",

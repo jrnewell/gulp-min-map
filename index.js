@@ -1,6 +1,6 @@
 var es = require('event-stream');
 var cheerio = require('cheerio');
-var _ = require('underscore');
+var _ = require('lodash');
 var path = require('path');
 var url = require('url');
 
@@ -16,10 +16,13 @@ var url = require('url');
 */
 module.exports = function(type, map, options) {
   opt = options || {};
-  opt.minAttr = opt.minAttr || 'data-min';
-  opt.noMinAttr = opt.noMinAttr || 'data-no-min';
-  opt.autoMin = opt.autoMin || true;
-  opt.updateHTML = opt.updateHTML || true;
+  _.defaults(opt, {
+    minAttr: 'data-min',
+    noMinAttr: 'data-no-min',
+    autoMin: true,
+    updateHTML: true,
+    appendRev: false
+  });
 
   var handleFile = function(file, callback) {
     // prevent repeats of same min file in an html file
@@ -132,18 +135,14 @@ module.exports = function(type, map, options) {
     var typeArray;
     if (_.isArray(type)) typeArray = type;
     else if (_.isString(type)) typeArray = [type];
-    else return callback(new Error("Unsupported type paramter type supplied"), undefined);
+    else return callback(new Error("Unsupported type parameter type supplied"), undefined);
 
-    var isErr = false;
-    typeArray.forEach(function(type) {
-      if (type === 'js') handleFunc(type, 'script', 'src');
-      else if (type === 'css') handleFunc(type, 'link[rel=stylesheet]', 'href');
-      else {
-        isErr = true;
-        return callback(new Error("Unsupported type paramter type supplied"), undefined);
-      }
-    });
-    if (isErr) return;
+    for (var i = 0; i < typeArray.length; i++) {
+      var _type = typeArray[i];
+      if (_type === 'js') handleFunc(_type, 'script', 'src');
+      else if (_type === 'css') handleFunc(_type, 'link[rel=stylesheet]', 'href');
+      else return callback(new Error("Unsupported type parameter type supplied"), undefined);
+    };
 
     if (opt.updateHTML) file.contents = new Buffer($.html());
     return callback(null, file);
