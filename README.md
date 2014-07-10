@@ -1,10 +1,10 @@
 # gulp-min-map
 
-gulp-min-map is a [gulp](https://github.com/wearefractal/gulp) plugin to create a file minification mapping of local js and css in your HTML files.  It uses HTML5 data attributes to process the min files and optionally will rewrite the js and css links for you.
+gulp-min-map is a [gulp](https://github.com/wearefractal/gulp) plugin to create a file minification mapping of local js and css in your HTML files.  It uses HTML5 data attributes to process the min files and will optionally rewrite the js and css links for you.
 
 ## Usage
 
-gulp-min-map provide a plugin to retrieve the a { minFile: [sourceFile1, sourceFile2, ..] } mapping.  You can pass this map object in a custom concatenation, minifcation, etc. gulp task.
+gulp-min-map is a plugin that provides a { minFile: [sourceFile1, sourceFile2, ..] } mapping/manifest object.  You can pass this map object to a custom concatenation, minification, etc. gulp task.
 
 Install as a dependency into project
 
@@ -88,7 +88,8 @@ Output:
 <link rel="stylesheet" href="/css/home.min.css">
 <link rel="stylesheet" href="/css/admin/admin.min.css">
 ```
-It will also build a mapping object that you can use for depedent gulp tasks
+
+It will also build a mapping object that you can use for dependent gulp tasks
 
 ```json
 {
@@ -134,6 +135,12 @@ Type: bool<br/>
 Default: true
 
 Rewrite the input HTML files so the src uses the min files.  Otherwise, the HTML file is left as is.
+
+### appendRev
+Type: bool<br/>
+Default: false
+
+If true, appends a query string '?=rev=@@hash' to the end of the css or js file name when rewriting the HTML files.  This format is compatible with the [https://github.com/bustardcelly/gulp-rev-append](gulp-rev-append) plugin for cache busting.  Run after you have minified, concatenated, etc. your css and js files appropriately.
 
 ## License
 

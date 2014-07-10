@@ -13,6 +13,7 @@ var url = require('url');
     defaultMinFile (string) - if autoMin is true, use this min file for all files without a data-min attribute.
                               if defaultMinFile is null, use the src file name instead [default=null]
     updateHTML (bool)       - rewrite HTML files to point at the min files [default=true]
+    appendRev (bool)        - append '?=rev=@@hash' to file name, compatible with gulp-rev-append for cache busting
 */
 module.exports = function(type, map, options) {
   opt = options || {};
@@ -94,7 +95,11 @@ module.exports = function(type, map, options) {
       if (opt.updateHTML) {
         if (!replacedMinFile[normMinFile]) {
           elem.removeAttr(opt.minAttr);
-          elem.attr(srcSelector, path.normalize(minFile));
+          var newDomSrc = path.normalize(minFile);
+          if (opt.appendRev) {
+            newDomSrc += "?rev=@@hash";
+          }
+          elem.attr(srcSelector, newDomSrc);
           replacedMinFile[normMinFile] = true;
         }
         else {
