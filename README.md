@@ -140,7 +140,7 @@ Rewrite the input HTML files so the src uses the min files.  Otherwise, the HTML
 Type: bool<br/>
 Default: false
 
-If true, appends a query string '?=rev=@@hash' to the end of the css or js file name when rewriting the HTML files.  This format is compatible with the [https://github.com/bustardcelly/gulp-rev-append](gulp-rev-append) plugin for cache busting.  Run after you have minified, concatenated, etc. your css and js files appropriately.
+If true, appends a query string '?=rev=@@hash' to the end of the css or js file name when rewriting the HTML files.  This format is compatible with the [gulp-rev-append](https://github.com/bustardcelly/gulp-rev-append) plugin for cache busting.  Run after you have minified, concatenated, etc. your css and js files appropriately.
 
 ## License
 
