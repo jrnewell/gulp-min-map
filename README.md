@@ -1,5 +1,7 @@
 # gulp-min-map
 
+[![NPM version](http://img.shields.io/npm/v/gulp-min-map.svg)](https://www.npmjs.com/package/gulp-min-map)
+
 gulp-min-map is a [gulp](https://github.com/wearefractal/gulp) plugin to create a file minification mapping of local js and css in your HTML files.  It uses HTML5 data attributes to process the min files and will optionally rewrite the js and css links for you.
 
 ## Usage
