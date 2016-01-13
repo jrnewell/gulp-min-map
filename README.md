@@ -118,7 +118,7 @@ The HTML element attribute that specifies the min file name to associate this el
 Type: string<br/>
 Default: "data-no-min"
 
-The HTML element attribute that specifies to exclude this element from min file processing when automMin is true.
+The HTML element attribute that specifies that this element should be excluded from min file processing when automMin is true.
 
 ### autoMin
 Type: bool<br/>

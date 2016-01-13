@@ -1,7 +1,7 @@
 var es = require('event-stream');
 var cheerio = require('cheerio');
 var _ = require('lodash');
-var path = require('path');
+var path = require('path').posix;
 var url = require('url');
 
 /*
